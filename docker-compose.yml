@@ -1,0 +1,32 @@
+services:
+  # The FastAPI backend, built from the Dockerfile
+  klaris-api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      # host.docker.internal lets the container reach Ollama running on
+      # YOUR laptop (outside Docker) — Ollama itself isn't containerized
+      # here since it needs direct GPU access, which is simpler to run
+      # natively than through Docker on most laptops.
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - OLLAMA_LLM_MODEL=llama3.2:1b
+      - OLLAMA_EMBED_MODEL=nomic-embed-text
+      - LANCEDB_URI=/app/lancedb_data
+    volumes:
+      # Mounts a folder on your actual laptop into the container, so
+      # your vector data and user accounts survive `docker compose down`
+      - ./lancedb_data:/app/lancedb_data
+      - ./users_db.json:/app/users_db.json
+    extra_hosts:
+      # Required on Linux for host.docker.internal to resolve.
+      # Mac/Windows Docker Desktop sets this up automatically.
+      - "host.docker.internal:host-gateway"
+
+  # The React frontend, served as a static build via a tiny Node server
+  klaris-frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - klaris-api

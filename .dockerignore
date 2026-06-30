@@ -1,0 +1,9 @@
+venv/
+__pycache__/
+*.pyc
+.env
+lancedb_data/
+users_db.json
+node_modules/
+dist/
+.git/
