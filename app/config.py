@@ -7,6 +7,9 @@ class Settings(BaseSettings):
     ollama_base_url: str = "http://localhost:11434"
     ollama_llm_model: str = "llama3.2:1b"
     ollama_embed_model: str = "nomic-embed-text"
+    llm_provider: str = "ollama"          # "ollama" or "groq"
+    groq_api_key: str = ""
+    groq_llm_model: str = "llama-3.1-8b-instant"
     lancedb_uri: str = "./lancedb_data"
     github_token: str = ""
 

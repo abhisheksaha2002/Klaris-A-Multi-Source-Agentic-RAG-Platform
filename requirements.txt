@@ -10,8 +10,9 @@ requests==2.32.2
 
 # embeddings, vector store, local LLM
 langchain-ollama>=0.2.0
-lancedb==0.13.0
-pyarrow>=14.0.0
+langchain-groq>=0.2.0
+lancedb==0.14.0
+pyarrow>=14.0.0,<18
 
 # authentication
 python-jose[cryptography]==3.3.0

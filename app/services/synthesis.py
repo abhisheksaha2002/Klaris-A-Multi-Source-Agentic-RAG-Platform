@@ -1,4 +1,4 @@
-from langchain_ollama import OllamaLLM
+from app.services.llm_provider import get_llm_provider
 from typing import List, Dict
 from app.config import settings
 from app.services.vector_store import search_chunks_in_source, list_user_sources
@@ -85,11 +85,7 @@ Question: {question}
 
 Synthesized answer:"""
 
-    llm = OllamaLLM(
-        model=settings.ollama_llm_model,
-        base_url=settings.ollama_base_url,
-        temperature=0.1,
-    )
-    answer = llm.invoke(prompt)
+    llm = get_llm_provider(temperature=0.1)
+    answer = llm.generate(prompt)
 
-    return {"answer": answer.strip(), "sources_compared": sources_compared}
+    return {"answer": answer, "sources_compared": sources_compared}
